@@ -1,10 +1,11 @@
 package com.example.demo.controllers;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import com.example.demo.model.Student;
+import com.example.demo.services.StudentService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,8 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = "api/v1/student")
 public class StudentController {
 
+    private final StudentService studentService;
+
+    @Autowired
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
+    }
+
     @GetMapping
     public List<Student> getStudents() {
-        return List.of(new Student(1L, "Gabriel", "gabriel@gmail.com", LocalDate.of(1997, 01, 03), 25));
+        return studentService.getStudents();
     }
 }
