@@ -1,7 +1,7 @@
 package com.example.demo.services;
 
-import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import com.example.demo.model.Student;
 import com.example.demo.repository.StudentRepository;
@@ -21,5 +21,15 @@ public class StudentService {
 
     public List<Student> getStudents() {
         return studentRepository.findAll();
+    }
+
+    public void addNewStundent(Student student) {
+        Optional<Student> studentOptional = studentRepository.findStudentByEmail(student.getEmail());
+
+        if (studentOptional.isPresent()) {
+            throw new IllegalStateException("email taken");
+        }
+
+        studentRepository.save(student);
     }
 }
